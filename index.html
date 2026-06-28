@@ -66,14 +66,18 @@ fetch('data.json?_=' + Date.now()).then(r=>r.json()).then(d=>{
              + `<span class="dround">${esc(day.round)}</span></div>`;
     if(day.day_matches && day.day_matches.length)
       html += `<div class="dmatches">Today's matches: ${day.day_matches.map(esc).join(' · ')}</div>`;
+    const opensTxt = (day.opens_on||'').slice(5).replace('-','/');
+    if(day.selectable===false)
+      html += `<div class="dmatches" style="color:#f0883e">🔒 not reservable yet — Pijja opens this date ~${esc(opensTxt)}</div>`;
     day.windows.forEach(w=>{
       html += `<div class="win"><div class="wtop"><span class="ball">⚽</span>`
             + `<span class="ko">${esc(w.kickoff)}</span>`
             + `<span class="teams">— ${esc(w.teams)}</span></div>`;
-      if(w.bookable===null) html += `<div class="none">⚠️ couldn't check availability</div>`;
+      if(day.selectable===false) html += `<div class="none">🔒 opens ~${esc(opensTxt)}</div>`;
+      else if(w.bookable===null) html += `<div class="none">⚠️ couldn't check availability</div>`;
       else if(w.bookable.length) html += `<div class="slots">` +
             w.bookable.map(s=>`<span class="slot">${esc(s)}</span>`).join('') + `</div>`;
-      else html += `<div class="none">no bookable tables at game time yet (may be request-only until the window opens)</div>`;
+      else html += `<div class="none">no bookable tables at game time yet</div>`;
       html += `</div>`;
     });
     card.innerHTML = html; c.appendChild(card);

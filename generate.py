@@ -8,8 +8,15 @@ the Y game." Times are US Pacific (PT).
 Run locally or via the daily GitHub Action. Pure stdlib + requests.
 """
 import json, time
-from datetime import date
+from datetime import date, timedelta
 import requests
+
+# Pijja opens reservations ~13 days in advance. Verified 2026-06-27 (PT, the venue's tz):
+# requesting any date past Jul 10 made the SevenRooms widget clamp back to Jul 10, and
+# Jul 10 - Jun 27 = 13. The raw availability API computes further out than the booking UI
+# allows, so dates beyond this window are NOT reservable yet — mark "opens ~<date>".
+# NB: compute from the venue-local (PT) date; date.today() here is PT.
+BOOKING_WINDOW_DAYS = 13
 
 VENUE = "pijjapalacemrktingcrm"
 PARTY = 4
@@ -76,26 +83,36 @@ def bookable(day):
 
 
 def main():
-    today = date.today().isoformat()
+    today_d = date.today()
+    today = today_d.isoformat()
     dates_out = []
     for day, info in GAMES.items():
         if day < today:
             continue
-        slots = bookable(day)
+        dt = date.fromisoformat(day)
+        days_out = (dt - today_d).days
+        selectable = days_out <= BOOKING_WINDOW_DAYS
+        opens_on = None if selectable else (dt - timedelta(days=BOOKING_WINDOW_DAYS)).isoformat()
+        # only query availability for dates actually reservable in the UI now
+        slots = bookable(day) if selectable else None
         wins = []
         for w in info["windows"]:
             km = to_min(w["ko"])
-            if slots is None:
-                bk = None
+            if not selectable:
+                bk = None  # not reservable yet
+            elif slots is None:
+                bk = None  # couldn't check
             else:
                 bk = [s for s in slots if km - BEFORE_MIN <= to_min(s) <= km + AFTER_MIN]
             wins.append({"kickoff": pretty(w["ko"]), "teams": w["teams"], "bookable": bk})
         dates_out.append({
             "date": day,
-            "weekday": date.fromisoformat(day).strftime("%A"),
-            "pretty_date": date.fromisoformat(day).strftime("%b ") + str(date.fromisoformat(day).day),
+            "weekday": dt.strftime("%A"),
+            "pretty_date": dt.strftime("%b ") + str(dt.day),
             "round": info["round"],
             "day_matches": info.get("day_matches", []),
+            "selectable": selectable,
+            "opens_on": opens_on,
             "windows": wins,
         })
     data = {
@@ -105,7 +122,8 @@ def main():
         "book_url": BOOK_URL,
         "party_size": PARTY,
         "tz": "Pacific (PT)",
-        "window_note": f"Bookable slots shown are within {BEFORE_MIN} min before to {AFTER_MIN} min after kickoff.",
+        "window_note": f"Bookable slots are within {BEFORE_MIN} min before to {AFTER_MIN} min after kickoff. Pijja only opens reservations ~{BOOKING_WINDOW_DAYS} days ahead, so later dates show when they'll open.",
+        "booking_window_days": BOOKING_WINDOW_DAYS,
         "generated_at": time.strftime("%Y-%m-%d %H:%M") + " PT",
         "dates": dates_out,
     }
