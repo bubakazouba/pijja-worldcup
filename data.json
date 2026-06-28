@@ -1,0 +1,211 @@
+{
+  "venue": "Pijja Palace",
+  "blurb": "Indian-Italian sports bar, Silver Lake",
+  "address": "2711 W Sunset Blvd, Los Angeles, CA 90026",
+  "book_url": "https://www.sevenrooms.com/explore/pijjapalacemrktingcrm/reservations/create/search",
+  "party_size": 4,
+  "tz": "Pacific (PT)",
+  "window_note": "Bookable slots shown are within 90 min before to 30 min after kickoff.",
+  "generated_at": "2026-06-27 17:30 PT",
+  "dates": [
+    {
+      "date": "2026-06-28",
+      "weekday": "Sunday",
+      "pretty_date": "Jun 28",
+      "round": "Round of 32",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "12:00 PM",
+          "teams": "South Africa vs Canada",
+          "bookable": [
+            "12:00 PM",
+            "12:15 PM",
+            "12:30 PM"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-03",
+      "weekday": "Friday",
+      "pretty_date": "Jul 3",
+      "round": "Round of 32",
+      "day_matches": [
+        "Australia vs Egypt",
+        "Argentina vs Cabo Verde",
+        "Colombia vs Ghana"
+      ],
+      "windows": [
+        {
+          "kickoff": "11:00 AM",
+          "teams": "Round of 32",
+          "bookable": []
+        },
+        {
+          "kickoff": "3:00 PM",
+          "teams": "Round of 32",
+          "bookable": []
+        },
+        {
+          "kickoff": "6:30 PM",
+          "teams": "Round of 32",
+          "bookable": [
+            "5:00 PM",
+            "5:15 PM",
+            "5:30 PM",
+            "5:45 PM",
+            "6:00 PM",
+            "6:15 PM",
+            "6:30 PM",
+            "6:45 PM",
+            "7:00 PM"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-04",
+      "weekday": "Saturday",
+      "pretty_date": "Jul 4",
+      "round": "Round of 16",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "10:00 AM",
+          "teams": "TBD",
+          "bookable": []
+        },
+        {
+          "kickoff": "2:00 PM",
+          "teams": "TBD",
+          "bookable": [
+            "12:30 PM",
+            "12:45 PM",
+            "1:00 PM",
+            "1:15 PM",
+            "1:30 PM",
+            "1:45 PM",
+            "2:00 PM",
+            "2:15 PM",
+            "2:30 PM"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-05",
+      "weekday": "Sunday",
+      "pretty_date": "Jul 5",
+      "round": "Round of 16",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "1:00 PM",
+          "teams": "TBD",
+          "bookable": [
+            "12:00 PM",
+            "12:15 PM",
+            "12:30 PM",
+            "12:45 PM",
+            "1:00 PM",
+            "1:15 PM",
+            "1:30 PM"
+          ]
+        },
+        {
+          "kickoff": "5:00 PM",
+          "teams": "TBD",
+          "bookable": [
+            "3:30 PM",
+            "3:45 PM",
+            "4:00 PM",
+            "4:15 PM",
+            "4:30 PM",
+            "4:45 PM",
+            "5:00 PM",
+            "5:15 PM",
+            "5:30 PM"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "weekday": "Friday",
+      "pretty_date": "Jul 10",
+      "round": "Quarter-final",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "12:00 PM",
+          "teams": "TBD",
+          "bookable": []
+        }
+      ]
+    },
+    {
+      "date": "2026-07-11",
+      "weekday": "Saturday",
+      "pretty_date": "Jul 11",
+      "round": "Quarter-final",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "2:00 PM",
+          "teams": "TBD",
+          "bookable": [
+            "12:30 PM",
+            "12:45 PM",
+            "1:00 PM",
+            "1:15 PM",
+            "1:30 PM",
+            "1:45 PM",
+            "2:00 PM",
+            "2:15 PM",
+            "2:30 PM"
+          ]
+        },
+        {
+          "kickoff": "6:00 PM",
+          "teams": "TBD",
+          "bookable": [
+            "4:30 PM",
+            "4:45 PM",
+            "5:00 PM",
+            "5:15 PM",
+            "5:30 PM"
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-07-18",
+      "weekday": "Saturday",
+      "pretty_date": "Jul 18",
+      "round": "Third-place play-off",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "2:00 PM",
+          "teams": "TBD",
+          "bookable": []
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "weekday": "Sunday",
+      "pretty_date": "Jul 19",
+      "round": "FINAL",
+      "day_matches": [],
+      "windows": [
+        {
+          "kickoff": "12:00 PM",
+          "teams": "TBD",
+          "bookable": []
+        }
+      ]
+    }
+  ]
+}

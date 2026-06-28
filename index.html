@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pijja Palace × World Cup — bookable game-time tables</title>
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--card2:#1c2330;--ink:#e6edf3;--mut:#9aa7b4;
+        --acc:#58a6ff;--green:#3fb950;--amber:#f0883e;--line:#30363d;--pitch:#1f7a3d;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:'Segoe UI',-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:780px;margin:0 auto;padding:20px 14px 70px}
+  header{text-align:center;padding:10px 0 4px}
+  h1{font-size:23px;margin:0 0 4px;font-weight:800}
+  .sub{color:var(--mut);font-size:14px}
+  .meta{color:var(--mut);font-size:12px;margin-top:8px}
+  .meta a{color:var(--acc);text-decoration:none}
+  .bookbtn{display:inline-block;margin:14px 0 4px;background:linear-gradient(135deg,#1f6feb,#388bfd);
+           color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 14px 8px;margin:16px 0;
+        box-shadow:0 2px 12px rgba(0,0,0,.25)}
+  .dhead{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+  .dday{font-size:18px;font-weight:800}
+  .dround{font-size:12px;color:var(--amber);border:1px solid var(--amber);border-radius:20px;padding:1px 9px}
+  .dmatches{font-size:12.5px;color:var(--mut);margin:2px 0 10px}
+  .win{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .wtop{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:6px}
+  .ball{font-size:15px}
+  .ko{font-weight:700}
+  .teams{color:var(--mut)}
+  .slots{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .slot{background:#13351f;border:1px solid var(--green);color:#7ee787;border-radius:7px;
+        padding:4px 9px;font-size:13px;font-weight:600}
+  .none{color:var(--mut);font-size:13px;font-style:italic}
+  .loading{text-align:center;color:var(--mut);padding:40px}
+  .foot{text-align:center;color:var(--mut);font-size:12px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>🍕⚽ Pijja Palace × World Cup</h1>
+  <div class="sub" id="sub">Bookable 4-top tables during each World Cup weekend game</div>
+  <div><a class="bookbtn" id="bookbtn" href="#" target="_blank" rel="noopener">Book on SevenRooms →</a></div>
+  <div class="meta" id="meta"></div>
+</header>
+<div id="content"><div class="loading">loading availability…</div></div>
+<div class="foot" id="foot"></div>
+</div>
+<script>
+function esc(s){return (s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+fetch('data.json?_=' + Date.now()).then(r=>r.json()).then(d=>{
+  document.getElementById('sub').textContent =
+    `${d.venue} — ${d.blurb} · party of ${d.party_size} · times in ${d.tz}`;
+  document.getElementById('bookbtn').href = d.book_url;
+  document.getElementById('meta').innerHTML =
+    `📍 ${esc(d.address)} · updated ${esc(d.generated_at)}`;
+  document.getElementById('foot').textContent = d.window_note +
+    ' "TBD" games depend on earlier-round results. Bookable = real instant tables (not request-only).';
+  const c = document.getElementById('content'); c.innerHTML='';
+  if(!d.dates.length){ c.innerHTML='<div class="loading">No upcoming World Cup weekend dates.</div>'; return; }
+  d.dates.forEach(day=>{
+    const card=document.createElement('div'); card.className='card';
+    let html = `<div class="dhead"><span class="dday">${day.weekday}, ${esc(day.pretty_date)}</span>`
+             + `<span class="dround">${esc(day.round)}</span></div>`;
+    if(day.day_matches && day.day_matches.length)
+      html += `<div class="dmatches">Today's matches: ${day.day_matches.map(esc).join(' · ')}</div>`;
+    day.windows.forEach(w=>{
+      html += `<div class="win"><div class="wtop"><span class="ball">⚽</span>`
+            + `<span class="ko">${esc(w.kickoff)}</span>`
+            + `<span class="teams">— ${esc(w.teams)}</span></div>`;
+      if(w.bookable===null) html += `<div class="none">⚠️ couldn't check availability</div>`;
+      else if(w.bookable.length) html += `<div class="slots">` +
+            w.bookable.map(s=>`<span class="slot">${esc(s)}</span>`).join('') + `</div>`;
+      else html += `<div class="none">no bookable tables at game time yet (may be request-only until the window opens)</div>`;
+      html += `</div>`;
+    });
+    card.innerHTML = html; c.appendChild(card);
+  });
+}).catch(e=>{
+  document.getElementById('content').innerHTML='<div class="loading">Failed to load data.json — '+esc(String(e))+'</div>';
+});
+</script>
+</body>
+</html>
